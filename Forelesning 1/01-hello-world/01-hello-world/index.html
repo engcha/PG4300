@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>PG4300 &raquo; 01 Hello World</title>
+
+    <link rel="stylesheet" href="../libs/css/reveal.min.css" />
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="../libs/css/theme/serif.css" id="theme" />
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../libs/lib/css/zenburn.css" />
+
+    <!-- Own styles -->
+    <link rel="stylesheet" href="../libs/css/pg4300.css" />
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../libs/css/print/'
+        + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' )
+        + '.css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../libs/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section id="front-page">
+          <h1>PG4300</h1>
+          <h2>Forelesning 01</h2>
+          <p>Introduksjon til faget</p>
+        </section>
+
+        <section id="lecturer">
+          <h1>Ole Christian Rynning</h1>
+
+          <figure>
+            <img src="img/oc.jpg" alt="Ole Christian Rynning" />
+          </figure>
+        </section>
+
+        <section>
+          <section id="ruby-showoff">
+            <h1>Ruby</h1>
+            <figure>
+              <img class="slide-img" src="img/ruby.png" alt="Ruby" />
+            </figure>
+
+            <blockquote cite="http://ruby-lang.org">
+              A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant
+              syntax that is natural to read and easy to write.
+            </blockquote>
+            <cite>
+              <a href="http://ruby-lang.org">Ruby Official Website</a>
+            </cite>
+          </section>
+
+          <section id="ruby-showoff/interpreted">
+            <h2>Tolket</h2>
+
+            <p>
+              Ruby er et såkalt &laquo;tolket&raquo; (eng.: <em>interpreted</em>) språk. Dette betyr at det ikke
+              kompileres &ndash; slik som f.eks. Java og C++ &ndash; men heller tolkes av kjøretidsmiljøet underveis,
+              mens koden leses inn, som JavaScript og Python*.
+            </p>
+          </section>
+
+          <section id="ruby-showoff/dynamically-typed">
+            <h2>Dynamisk typet</h2>
+
+            <p>
+              Ruby er &laquo;dynamisk typet&raquo;, hvilket betyr at utvikleren ikke spesifiserer typene (f.eks.
+              <em>String</em> foo;) variabler holder på som i statisk typede språk.
+            </p>
+
+            <pre><code>i = 50 ; i.class</code></pre>
+            <output class="code-result">Fixnum</output>
+
+            <pre><code>i = "Foo" ; i.class</code></pre>
+            <output class="code-result">String</output>
+
+            <p>
+              Kjøretidsmiljøet holder selv på type-hierarkiet, og "finner" selv ut hvilken klasse et objekt tilhører når koden kjøres.
+            </p>
+            <p>
+              Selv om dette ofrer litt av valideringen og typesikkerhet ved kompilering, så åpner det for mye høynivå-funksjonalitet 
+              som metaprogrammering, closures, ducktyping, m.m. i språket som vi kommer tilbake til senere. 
+            </p>
+            
+          </section>
+          
+          <section id="ruby-showoff/strongly-typed">
+            <h2>Sterkt typet</h2>
+
+            <p>
+              Ruby er &laquo;sterkt typet&raquo;, (strongly typed) hvilket betyr at i kjøretidsmiljøet ikke tillater brukere å anvende
+              typer feil. Om du forsøker å mikse sammen ulike typer (f.eks. String og Fixnum) så vil ikke Ruby tillate dette, eller 
+              forsøke å finne ut av det, men heller kaste en exception.
+            </p>
+
+            <p>
+              Eksempelvis er JavaScript et svakt typet (weakly typed) programmeringsspråk. [repl.it]. Java (Kjøretidsmiljø) og C er 
+              andre eksempler.
+            </p>
+            
+          </section>
+
+          <section id="ruby-showoff/strongly-typed">
+            <h2>Dynamisk typet, Sterkt typet</h2>
+            
+            <p>Et dynamisk typet språk er et språk hvor typen av en variabel kan endres (eller overskrives) på ethvert tidspunkt, også
+              av kjøretidsmiljøet.</p>
+            
+            <p>Et statisk typet språk er det motsatte. Du kan kun spesifisere typen ved kompilering.</p>
+            
+            <p>Et sterkt typet språk er et språk som er strengt om hva du kan gjøre med dine typede variabler. Kjøretidsmiljøet vet 
+              hva typen er og hindrer en rekke feilsituasjoner*.</p>
+            
+            <p>Et svakt typet språk det motsatte. Du kan mikse typer. Kjøretidsmiljøet vet ikke hva typen er.</p>
+          </section>
+
+          <section id="ruby-showoff/everythings-an-object">
+            <h2>Alt er objekter</h2>
+
+            <p>
+              I Java finnes primitive typer, slike som <em>int</em>, <em>double</em> og <em>boolean</em>. I Ruby er alle
+              typer objekter av klasser.
+            </p>
+
+            <pre><code>nil.class</code></pre>
+            <output class="code-result">NilClass</output>
+
+            <pre><code>true.class</code></pre>
+            <output class="code-result">TrueClass</output>
+
+            <pre><code>false.class</code></pre>
+            <output class="code-result">FalseClass</output>
+
+            <p>Selv klasser er objekter av klassen <em>Class</em>.</p>
+
+            <pre><code>String.class</code></pre>
+            <output class="code-result">Class</output>
+          </section>
+
+          <section id="ruby-showoff/open-classes">
+            <h2>Klasser er åpne</h2>
+
+            <p>
+              Dersom det skulle være behov for det, er det i Ruby mulig å åpne eksisterende klasser og legge til eller
+              endre funksjonalitet.
+            </p>
+
+            <pre><code>class Numeric
+  def seconds
+    self
+  end
+ 
+  def minutes
+    self * 60
+  end
+ 
+  def hours
+    self * 60.minutes
+  end
+end</code></pre>
+
+            <pre><code>10.seconds</code></pre>
+            <output class="code-result">10</output>
+
+            <pre><code>2.minutes</code></pre>
+            <output class="code-result">60</output>
+
+            <pre><code>5.hours</code></pre>
+            <output class="code-result">18000</output>
+</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section id="rails-intro">
+            <h1>Rails</h1>
+
+            <figure>
+              <img class="slide-img" src="img/rails.png" alt="Rails" />
+            </figure>
+
+            <blockquote cite="http://rubyonrails.org">
+              Ruby on Rails<sup>&reg;</sup> is an open-source web framework that's optimized for programmer happiness
+              and sustainable productivity. It lets you write beautiful code by favoring convention over configuration.
+            </blockquote>
+            <cite>
+              <a href="http://rubyonrails.org">Ruby on Rails Official Website</a>
+            </cite>
+          </section>
+
+          <section id="rails-intro/written-in-ruby">
+            <h2>Skrevet i Ruby</h2>
+
+            <p>
+              Rails er skrevet i Ruby. Det er ikke et eget språk, men et <em>rammeverk</em> ment for å bygge
+              web-applikasjoner. Rails fokuserer på produktivitet, og sikter på å gjøre utviklingen så smertefri som
+              mulig for utvikleren.
+            </p>
+          </section>
+
+          <section id="rails-intro/convention-over-configuration">
+            <h2>Konvensjon fremfor konfigurasjon</h2>
+
+            <p>
+              Et av prinsippene bak Rails er det som heter <em>convention over configuration</em>. Det finnes allerede
+              finnes mange standarder i Rails som bygger på eksisterende konvensjoner. Utvikleren skal slippe å
+              konfigurere seg frem til disse.
+            </p>
+          </section>
+
+          <section id="rails-intro/dry">
+            <h2>Don't Repeat Yourself</h2>
+
+            <p>
+              Veldig mye av &laquo;magien&raquo; i Rails sørger for at utvikleren slipper å gjenta seg selv over flere
+              steder. Et eksempel på dette er hvordan Rails &ndash; ved å se på kolonner i databasen &ndash; legger til
+              ekstra metoder i klasser automatisk.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section id="ruby-intro">
+            <h1>Introduksjon til Ruby</h1>
+          </section>
+
+          <section id="ruby-intro/hello-world">
+            <h2>Hello, World!</h2>
+
+            <pre><code>puts "Hello, World!"</code></pre>
+            <output class="code-result">Hello, World!</output>
+          </section>
+
+          <section id="ruby-intro/hello-world/observations">
+            <h2>Observasjoner</h2>
+
+            <p>Det er noen ting som er verdt å merke seg med <em>Hello, World</em>-eksempelet.</p>
+
+            <p class="fragment">
+              Vi trengte ikke å
+              <ul>
+                <li class="fragment">kompilere koden</li>
+                <li class="fragment">definere noen pakke eller namespace</li>
+                <li class="fragment">lage noen klasser</li>
+                <li class="fragment">opprette en <em>main</em>-metode</li>
+                <li class="fragment">bruke parenteser når vi kalte på metoden <code>puts</code></li>
+              </ul>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section id="ruby-vs-java">
+            <h1>Ruby vs. Java</h1>
+          </section>
+
+          <section id="ruby-vs-java/syntax">
+            <h2>Syntaktiske forskjeller</h2>
+
+            <ul>
+              <li class="fragment">Det finnes ingen primitive verdier.</li>
+              <li class="fragment">Vi slipper å skrive semikolon på slutten av linjen.</li>
+              <li class="fragment">
+                Det er unødvendig med parenteser i metodekall.
+                <ul>
+                  <li>Unntaket er ved tvetydig nøsting.</li>
+                </ul>
+              </li>
+              <li class="fragment"><code>null</code> heter <code>nil</code>.</li>
+              <li class="fragment">
+                <code>i++</code> og <code>i--</code> finnes ikke. Bruk heller <code>i += 1</code> og <code>i -= 1</code>.
+              </li>
+              <li class="fragment">
+                <code>false</code> og <code>nil</code> er de eneste verdiene som er &laquo;falsy.&raquo;
+                <ul>
+                  <li><em>Alle</em> andre verdier, også <code>0</code> er &laquo;truthy.&raquo;</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section id="ruby-vs-java/naming-conventions/basics">
+            <h2>Navnekonvensjoner</h2>
+            <h3>The basics</h3>
+
+            <p>Filen <em>my_class.rb</em>:</p>
+
+            <pre><code>class MyClass
+
+  # Setter method
+  def property= value
+    @property = value
+  end
+
+  # Getter method
+  def property
+    @property
+  end
+
+  # Boolean method
+  def higher? value
+    value &gt; @property
+  end
+
+end</code></pre>
+          </section>
+
+          <section id="ruby-vs-java/naming-conventions/variables">
+            <h2>Navnekonvensjoner</h2>
+            <h3>Variable</h3>
+
+            <pre><code>MAX_VALUE      # Konstant
+$stdout        # Global variabel
+@current_value # Instansvariabel
+@@sides        # Klassevariabel
+value          # Lokal variabel</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section id="ruby">
+            <h1>Ruby</h1>
+            <h2>Diving deeper</h2>
+          </section>
+
+        <section id="ruby/comments">
+          <h2>Kommentarer</h2>
+
+          <pre><code># Dette er en enkeltlinjekommentar
+puts 1 + 1 # funker på slutten av ei linje
+
+=begin
+Dette er en kommentar over flere linjer.
+Merk at =begin og =end må stå for seg selv
+på egne linjer, uten innrykk og mellomrom
+før likhetstegnet.
+=end
+
+puts "Vanlig kode her"
+
+# Alternativt skriver du over flere linjer
+# ved å bruke flere enkeltlinjekommentarer.</code></pre>
+        </section>
+
+          <section id="ruby/numerics" class="small">
+            <h2>Tall</h2>
+
+            <pre><code>100.class</code></pre>
+            <output class="code-result">Fixnum</output>
+
+            <pre><code>13.37.class</code></pre>
+            <output class="code-result">Float</output>
+
+            <pre><code>3.even?</code></pre>
+            <output class="code-result">false</output>
+
+            <pre><code>3.odd?</code></pre>
+            <output class="code-result">true</output>
+
+            <pre><code>13.4.round</code></pre>
+            <output class="code-result">13</output>
+
+            <pre><code>99.next</code></pre>
+            <output class="code-result">100</output>
+
+            <pre><code>13 / 3</code></pre>
+            <output class="code-result">4</output>
+
+            <pre><code>13 / 3.0</code></pre>
+            <output class="code-result">4.333333333333333</output>
+
+            <pre><code>13.fdiv 3 </code></pre>
+            <output class="code-result">4.333333333333333</output>
+          </section>
+
+          <section id="ruby/ranges" class="small">
+            <h2>Range</h2>
+
+            <p>En range er en sekvens med tall eller bokstaver.</p>
+
+            <pre><code>1..10</code></pre>
+            <output class="code-result">1..10</output>
+
+            <pre><code>(1..10).class</code></pre>
+            <output class="code-result">Range</output>
+
+            <pre><code>(1..10).to_a</code></pre>
+            <output class="code-result">[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</output>
+
+            <pre><code>('a'..'f').to_a</code></pre>
+            <output class="code-result">["a", "b", "c", "d", "e", "f"]</output>
+
+            <pre><code>('a'..'f').include? 'b'</code></pre>
+            <output class="code-result">true</output>
+
+            <pre><code>(1...10).to_a</code></pre>
+            <output class="code-result">[1, 2, 3, 4, 5, 6, 7, 8, 9]</output>
+          </section>
+
+          <section id="ruby/strings" class="small">
+            <h2>Strings</h2>
+            <h3>Opprettelse</h3>
+
+            <p>Det finnes flere måter å opprette strenger på i Ruby.</p>
+
+            <pre><code>puts "Hello\nWorld!"</code></pre>
+            <output>Hello<br />World</output>
+
+            <pre><code>puts 'Hello\nWorld!'</code></pre>
+            <output>Hello\nWorld</output>
+
+            <p>Det finnes også et par alternative syntakser:</p>
+
+            <pre><code>puts %q(H'e'l'l'o\n'R'u'b'y)</code></pre>
+            <output>H'e'l'l'o\n'R'u'b'y</output>
+
+            <pre><code class="no-highlight">puts <span class="string">%Q(H'e'l'l'o\n'R'u'b'y)</span></code></pre>
+            <output>H'e'l'l'o<br />'R'u'b'y</output>
+          </section>
+
+          <section id="ruby/strings/concatenation">
+            <h2>String</h2>
+            <h3>Konkatenering</h3>
+
+            <p>Det finnes også flere måter å slå sammen strenger på.</p>
+
+            <pre><code>'Hello, ' + 'World'</code></pre>
+            <output class="code-result">"Hello, World"</output>
+
+            <pre><code>'Hello, ' &lt;&lt; 'World'</code></pre>
+            <output class="code-result">"Hello, World"</output>
+
+            <pre><code>'Hello, '.concat('World')</code></pre>
+            <output class="code-result">"Hello, World"</output>
+
+            <pre><code>'Hello, '.concat('World').concat(33)</code></pre>
+            <output class="code-result">"Hello, World!"</output>
+          </section>
+
+          <section id="ruby/strings/interpolation">
+            <h2>Strings</h2>
+            <h3>Interpolering</h3>
+
+            <p>Uttrykket mellom <code>#{</code> og <code>}</code> vil bli evaluert som Ruby-kode.</p>
+
+            <pre><code>fagkode = 351
+navn = 'Ruby on Rails'
+
+puts "PG#{fagkode} - #{navn}"</code></pre>
+            <output>PG351 - Ruby on Rails</output>
+
+            <p><strong>Merk:</strong> For å bruke interpolering må en bruke doble fnutter.</p>
+
+            <pre><code>puts 'The time is: #{Time.now}'</code></pre>
+            <output>The time is: #{Time.now}</output>
+          </section>
+
+          <section id="ruby/conditionals">
+            <h2>Conditionals</h2>
+
+            <pre><code>if something_is_true
+  # ...
+elsif something_else_is_true
+  # ...
+else
+  # ...
+end</code></pre>
+
+            <h3><code>unless</code></h3>
+
+            <p>
+              Det er mulig å bruke <code>if !=</code>, slik som vi er vant til fra f.eks. Java. Det ser imidlertid ofte
+              mer lekkert ut med <code>unless</code>.
+            </p>
+
+            <pre><code>unless something_is_true
+  # ...
+end</code></pre>
+
+            <p>Både <code>if</code> og <code>unless</code> kan også brukes til høyre for uttrykk:</p>
+
+            <pre><code>puts "Logg inn" unless logged_in?</code></pre>
+
+            <p class="fragment grow highlight-blue">Lekkert!</p>
+          </section>
+
+          <section id="ruby/case-when">
+            <h2><code>case..when</code></h2>
+
+            <p>Ligner på, men er <em>mye</em> kraftigere enn <code>switch..case</code> fra Java. NB! Ingen fall-through.</p>
+
+            <pre><code>input = 2000
+case input
+when 1990...2000
+  puts "Det skjedde på 90-tallet"
+when Fixnum
+  puts "Du skrev inn et heltall"
+when "quit", "exit", "avslutt"
+  exit
+else
+  puts "Ugyldig kommando: #{input}"
+end</code></pre>
+            <output>Du skrev inn et heltall</output>
+          </section>
+
+          <section id="ruby/while-until">
+            <h2><code>while</code> og <code>until</code></h2>
+
+            <p><code>while</code> fungerer som i Java, og <code>until</code> fungerer motsatt.</p>
+
+            <pre><code>i = 1
+until i == 3
+  puts i
+  i += 1
+end</code></pre>
+            <output>1<br />2<br />3</output> 
+          </section>
+
+          <section id="ruby/for">
+            <h2><code>for</code></h2>
+
+            <p>
+              Ruby har en <code>for</code>-struktur, men det er mer vanlig å bruke <code>Enumerator#each</code>. Dette
+              blir tatt opp i en senere forelesning.
+            </p>
+
+            <pre><code>for i in 5..7 do
+  puts i
+end</code></pre>
+            <output>5<br />6<br />7<br /></output>
+          </section>
+        </section>
+        
+        
+        <section>
+          <section id="installation-windows">
+            <h1>Installasjon</h1>
+            <h2>(Windows)</h2>
+          </section>
+
+          <section id="installation-windows/git">
+            <h2>Git for Windows</h2>
+
+            <p>
+              <em>Git for Windows</em> gir deg et shell som ligner på Bash, som en finner i Linux og OS X. Det er mye
+              kraftigere enn Windows' <em>cmd</em>, og tilgjengeliggjør også Git.
+            </p>
+
+            <p>
+              Last ned og installer <a href="http://msysgit.github.com/">Git for Windows</a> og følg instruksjonene.
+            </p>
+          </section>
+
+          <section id="installation-windows/rubyinstaller">
+            <h2>RubyInstaller</h2>
+
+            <p>
+              Den enkleste og tryggeste måten å få Ruby installert til Windows er å bruke <em>RubyInstaller</em>.
+            </p>
+
+            <p>
+              Last ned og installer <a href="http://rubyinstaller.org/downloads/">RubyInstaller</a> og følg
+              instruksjonene.
+            </p>
+          </section>
+
+          <section id="installation-windows/rails">
+            <h2>Rails</h2>
+
+            <p>
+              <em>Ruby on Rails</em> installeres som en såkalt &laquo;gem&raquo; på følgende måte:
+              <ol>
+                <li>Åpne Git Bash, som følger med <a href="#/installation-windows/git">Git for Windows</a></em>.</li>
+                <li>Kjør kommandoen <code>gem install rails</code>.</li>
+                <li>Vent til installasjonen er ferdig.</li>
+              </ol>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section id="installation-linux">
+            <h1>Installasjon</h1>
+            <h2>(Linux)</h2>
+          </section>
+
+          <section id="installation-linux/git">
+            <h2>Git</h2>
+
+            <p>Installer Git fra din package manager (f.eks. <em>apt-get</em> eller <em>yum</em>).</p>
+          </section>
+
+          <section id="installation-linux/rvm">
+            <h2>Ruby Version Manager</h2>
+
+            <p>
+              RVM (<em>Ruby Version Manager</em>) gjør det enkelt å installere og håndtere flere Ruby-installasjoner på
+              samme maskin.
+            </p>
+
+            <p>
+              <ol>
+                <li>Sørg for at alle <a href="https://rvm.io/rvm/prerequisites">avhengigheter</a> er installert.</li>
+                <li>Åpne et terminalvindu.</li>
+                <li>
+                  Installer RVM med denne kommandoen:
+                  <pre><code class="no-highlight">curl -L https://get.rvm.io | bash -s stable</code></pre>
+                </li>
+                <li>Følg instruksjoner som blir gitt etter installasjon.</li>
+            </p>
+          </section>
+
+          <section id="installation-linux/ruby-rails">
+            <h2>Ruby / Rails</h2>
+
+            <ol>
+              <li>
+                Finn ut hvilke avhengigheter som trengs for din maskin med kommandoen <code>rvm requirements</code>.
+              </li>                                                                                                  
+              <li>Følg instruksjonene som vises for å installere avhengighetene.</li>
+              <li>
+                Installer og sett opp Ruby med kommandoene under:
+                <pre><code class="no-highlight">rvm install ruby-2.2.0
+gem update --system
+rvm use 2.2.0@rails --create
+rvm --default 2.2.0</code></pre>
+              </li>
+              <li>
+                Installer Rails med kommandoen
+                <pre><code class="no-highlight">gem install rails</code></pre>
+              </li>
+            </ol>
+          </section>
+
+          <section id="installation-linux/troubleshooting">
+            <h2>Installasjonsproblemer?</h2>
+
+            <p>
+              Dersom du har problemer med installasjon på Linux, er det sannsynligvis grunnet mangel på nødvendige
+              pakker. Sjekk <a href="https://rvm.io/packages/">dokumentasjonen til RVM</a> for instruksjoner.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section id="installation-osx">
+            <h1>Installasjon</h1>
+            <h2>(Mac OS X)</h2>
+          </section>
+
+          <section id="installation-osx/xcode">
+            <h2>XCode</h2>
+
+            <p>
+              Ruby kommer allerede ferdig installert med OS X. Dette er imidlertid en gammel versjon. For å installere
+              Ruby 2.2.0 er det nødvendig å ha XCode installert på maskinen.</p>
+            <p>
+              Kjører du Lion eller nyere kan du laste ned XCode fra App Store. Du må så installere XCode Command Line Tools.
+              Protip: <code>xcode-select</code>.
+            </p>
+
+          </section>
+
+          <section id="installation-osx/rvm-ruby-rails">
+            <h2>RVM, Ruby &amp; Rails</h2>
+
+            <p>
+              Installasjon av RVM, Ruby og Rails gjøres likt som på Linux. Følg
+              <a href="#/installation-linux/rvm">disse instruksjonene</a>.
+            </p>
+          </section>
+          
+          <section id="installation-linux/ruby-rails">
+            <h2>Ruby / Rails</h2>
+
+            <ol>
+              <li>
+                Finn ut hvilke avhengigheter som trengs for din maskin med kommandoen <code>rvm requirements</code>.
+              </li>                                                                                                  
+              <li>Følg instruksjonene som vises for å installere avhengighetene.</li>
+              <li>
+                Installer og sett opp Ruby med kommandoene under:
+                <pre><code class="no-highlight">rvm install ruby-2.2.0
+gem update --system
+rvm use 2.2.0@rails --create
+rvm --default 2.2.0</code></pre>
+              </li>
+              <li>
+                Installer Rails med kommandoen
+                <pre><code class="no-highlight">gem install rails</code></pre>
+              </li>
+            </ol>
+          </section>
+          
+        </section>
+
+        <section id="confirm-installation">
+          <h2>Bekreft installasjonen</h2>
+
+          <p>For å bekrefte at alt er riktig installert, kjør kommandoene under.</p>
+
+          <pre><code class="no-highlight">ruby --version</code></pre>
+          <output class="code-result">ruby 2.2.0</output>
+
+          <pre><code class="no-highlight">rails --version</code></pre>
+          <output class="code-result">Rails 4.2.0</output>
+
+          <pre><code class="no-highlight">git --version</code></pre>
+          <output class="code-result">git version 1.9.3 (Apple Git-50)</output>
+
+          <pre><code class="no-highlight">rvm --version</code></pre>
+          <output class="code-result">rvm 1.26.9 (master) ... [https://rvm.io/]</output>
+        </section>
+        
+
+        <section>
+          <section id="exercises">
+            <h1>Egentrening</h1>
+          </section>
+
+          <section id="exercises/setup">
+            <h2>Oppsett av miljø</h2>
+
+            <p>
+              Før du begynner på oppgavene bør du sette opp utviklingsmiljøet på maskinen din. Følg
+              instruksjonene <a href="#/installation-windows">for Windows</a>,
+              <a href="#/installation-linux">Linux</a> eller <a href="#/installation-osx">Mac OS X</a>.
+            </p>
+          </section>
+
+          <section id="exercises/tryruby">
+            <h2>Try Ruby</h2>
+
+            <p>
+              <em><a href="http://tryruby.org">Try Ruby</a></em> er en nettside der du gjennomgår flere grunnleggende
+              oppgaver om Ruby. Du skriver inn Ruby-kode inn i et interaktivt shell i nettleseren, så forteller serveren
+              deg om du har skrevet riktig eller galt. Denne er veldig grunnleggende og anbefales å begynne med.
+            </p>
+          </section>
+
+          <section id="exercises/rubykoans">
+            <h2>Ruby Koans</h2>
+
+            <p>
+              <em><a href="http://rubykoans.com">Ruby Koans</a></em> er et sett med treningsoppgaver ment for å lære seg
+              Ruby. De baserer seg på at det skrevet tester fra før som feiler (<em>går rødt</em>). Din oppgave er å
+              gjøre så testene ikke lenger feiler (<em>går grønt</em>).
+            </p>
+
+            <p>
+              Når alle testene er grønne, er du ferdig. Dette er ikke veldig ulikt hvordan en bruker TDD &ndash; Test
+              Driven Development &ndash; til daglig, og er en god praksis å venne seg til når en programmerer Ruby.
+            </p>
+
+            <p>
+              <a href="https://github.com/downloads/edgecase/ruby_koans/rubykoans-2012-02-02.zip">Last ned</a> Ruby
+              Koans eller <a href="http://koans.heroku.com">gjør oppgavene online</a>.
+            </p>
+          </section>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="../libs/lib/js/head.min.js"></script>
+    <script src="../libs/js/reveal.min.js"></script>
+    <script src="../libs/js/jsruby.min.js"></script>
+
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../libs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../libs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../libs/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: '../libs/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+        ]
+      });
+    </script>
+
+  </body>
+</html>

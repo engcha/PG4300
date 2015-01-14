@@ -1,0 +1,49 @@
+blockquote + cite {
+  font-size: 0.5em !important;
+}
+
+.slides section figure img.slide-img {
+  box-shadow: none;
+  border: none;
+  position: absolute;
+  top: 5px; right: 5px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.slides section sup, .slides section sub {
+  font-size: 50%;
+}
+
+.slides section pre + output {
+  margin: -16px auto 10px;
+  background: #AAA;
+  padding: 0px 10px;
+  font-family: monospace;
+  font-size: 0.50em;
+  width: 90%;
+  display: block;
+  box-sizing: border-box;
+  text-align: left;
+  font-style: italic;
+}
+
+.slides section pre + output.code-result::before {
+  content: "=> ";
+  color: #666;
+}
+
+.slides section code {
+  vertical-align: 2px;
+  font-size: 0.6em;
+}
+
+.slides section pre code {
+  line-height: 1em;
+  vertical-align: inherit;
+  font-size: 1em;
+}
+
+.slides section.small {
+  font-size: 0.8em;
+}
